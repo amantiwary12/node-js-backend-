@@ -6,7 +6,7 @@ const navbarStyles = {
     backgroundColor: "#333",
     padding: "1rem",
     color: "white",
-  },
+  },  
   container: {
     maxWidth: "1200px",
     margin: "0 auto",

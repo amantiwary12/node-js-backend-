@@ -1,3 +1,4 @@
+//auth.route.js
 import express from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -52,9 +53,9 @@ router.post("/login", async (req, res, next) => {
       return res.status(401).json({ message: "email not found" });
     }
 
-    const isMarch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(4001).json({ message: "invalid password" });
+      return res.status(401).json({ message: "invalid password" });
     }
 
     const token = jwt.sign({ userID: user._id }, process.env.JWT_SECRET_KEY, {
@@ -85,9 +86,9 @@ router.get("/profile", authmiddleware, async (req, res, next) => {
 
 router.delete("/delete-user/:id", authmiddleware, async (req, res, next) => {
   try {
-    const currentUser = await User.findById(req.user.Id);
-    if (currectUser.role !== "admin") {
-      return res.status(403).json({ message: "assess denied" });
+    const currentUser = await User.findById(req.user_ID);
+    if (currentUser.role !== "admin") {
+      return res.status(403).json({ message: "access denied" });
     }
 
     await User.findByIdAndDelete(req.params.id);

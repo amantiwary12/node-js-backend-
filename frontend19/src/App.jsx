@@ -6,7 +6,6 @@ import Register from "./pages/Register.jsx";
 import Login from "./pages/Login.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 
-
 const PrivateRoute = ({ children }) => {
   const { isAuthenticated, loading } = useAuth();
 
@@ -71,3 +70,6 @@ function App() {
 }
 
 export default App;
+
+
+

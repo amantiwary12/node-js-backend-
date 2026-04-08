@@ -1,21 +1,34 @@
-import mongoose from ' mongoose';
+import mongoose from "mongoose";
 
-const userSchema = new mongoose.userSchema({
-    
-    email:{
-        trype:String
+/*
+  User Schema (Blueprint of user data)
+  - email: unique identifier
+  - password: hashed password
+  - role: user or admin
+*/
+
+const userSchema = new mongoose.Schema(
+  {
+    email: {
+      type: String,
+      required: true,
+      unique: true,
     },
-    password:{
-        trype:String,
+
+    password: {
+      type: String,
+      required: true,
     },
-    role:{
-        trype:String,
-        enum: ['admin', 'user'],
-        default: 'user'
-    }
 
-},{timestamps: true});
+    role: {
+      type: String,
+      enum: ["user", "admin"], // allowed values
+      default: "user",
+    },
+  },
+  { timestamps: true } // auto add createdAt & updatedAt
+);
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model("User", userSchema);
 
 export default User;

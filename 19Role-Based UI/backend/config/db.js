@@ -9,3 +9,4 @@ console.log("databace is connected")
         process.exit(1);
     }
 }
+export default connectDB;

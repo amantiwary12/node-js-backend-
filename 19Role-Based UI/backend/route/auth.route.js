@@ -127,6 +127,60 @@ router.get("/profile", authMiddleware, async (req, res, next) => {
 });
 
 
+// search bar route 
+router.get(
+  "/users/search",
+  authMiddleware,
+  allowRoles("admin"),
+  async (req, res) => {
+
+    const { email } = req.query;
+
+    const users = await User.find({
+      email: { $regex: email, $options: "i" }
+    });
+
+    res.json(users);
+  }
+);
+
+
+
+//admin created routes 
+router.post(
+  "/create-admin",
+  authMiddleware,
+  allowRoles("admin"),
+  async (req, res) => {
+
+    const { email, password } = req.body;
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const admin = await User.create({
+      email,
+      password: hashedPassword,
+      role: "admin"
+    });
+
+    res.json({ message: "Admin created" });
+  }
+);
+
+
+
+router.get(
+  "/users",
+  authMiddleware,
+  allowRoles("admin"),
+  async (req, res) => {
+
+    const users = await User.find().select("-password");
+
+    res.json(users);
+  }
+);
+
 
 /* ================= ADMIN ONLY ================= */
 
